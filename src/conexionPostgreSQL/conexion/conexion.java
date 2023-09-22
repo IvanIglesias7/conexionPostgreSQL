@@ -1,4 +1,4 @@
-package conexionPostgreSQL;
+package conexionPostgreSQL.conexion;
 
 import java.io.File;
 import java.io.FileInputStream;

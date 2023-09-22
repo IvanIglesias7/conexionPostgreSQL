@@ -1,8 +1,13 @@
 package conexionPostgreSQL.DAO;
 
+
+/**
+ * Entidad libro de la base de datos gestorBibliotecaPersonal
+ */
 public class libro {
 
-	//Propiedades
+	//Attributes
+	
 	int id_libro;
 	String titulo;
 	String autor;

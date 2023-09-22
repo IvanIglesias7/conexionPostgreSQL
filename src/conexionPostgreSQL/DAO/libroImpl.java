@@ -5,11 +5,16 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import conexionPostgreSQL.DTO.libroDTO;
+import conexionPostgreSQL.DTO.libroDTOImpl;
 
+/**
+ * Implementacion de la interfaz y lógica.
+ */
 public class libroImpl implements libroServicio {
 
-	libroDTO lib = new libroDTO();
-	
+	libroDTO libDTO = new libroDTO();
+	libroDTOImpl libDTOImpl = new libroDTOImpl();
+	libro libDAO = new libro();
 	@Override
 	public void selectAll(Connection con) {
 		
@@ -27,15 +32,15 @@ public class libroImpl implements libroServicio {
 	      // Hago iteración del objeto y lo meto en el DTO
 	      while (rs.next())
 	      {
-	        lib.setId_libro(rs.getInt("id_libro"));
-	        lib.setTitulo(rs.getString("titulo"));
-	        lib.setAutor(rs.getString("autor"));
-	        lib.setIsbn(rs.getString("isbn"));
-	        lib.setEdicion(rs.getInt("edicion"));
+	        libDTO.setId_libro(rs.getInt("id_libro"));
+	        libDTO.setTitulo(rs.getString("titulo"));
+	        libDTO.setAutor(rs.getString("autor"));
+	        libDTO.setIsbn(rs.getString("isbn"));
+	        libDTO.setEdicion(rs.getInt("edicion"));
 	        
 	       //Muestro resultados
 	        
-	         System.out.println(lib.toString());  
+	         System.out.println(libDTO.toString());  
 	      }
 	      //Cierro statement
 	      st.close();
@@ -46,6 +51,34 @@ public class libroImpl implements libroServicio {
 	      System.err.println(e.getMessage());
 	    }
 	  }
+
+	@Override
+	public void insert(Connection con) {
+		
+		try {
+			
+			libDAO = libDTOImpl.libroDTOaDAO(libDTOImpl.getLibro());
+			
+			// Creo el statement
+			Statement st = con.createStatement();
+		      
+			st.executeQuery("INSERT INTO gbp_almacen.gbp_alm_cat_libros "
+					+ "VALUES (DEFAULT,"
+					+ libDAO.getTitulo() + ","
+					+ libDAO.getAutor() + ","
+					+ libDAO.getIsbn() + ","
+					+ libDAO.getEdicion() + ")");
+			
+			
+		   st.close();
+		   
+		} catch (Exception e) {
+			
+			System.err.println("Error! ");
+		      System.err.println(e);
+		}
+		
+	}
 	}
 
 
